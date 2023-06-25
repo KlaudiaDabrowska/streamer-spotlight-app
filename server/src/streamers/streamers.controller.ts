@@ -1,7 +1,7 @@
 import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
 import { StreamersService } from './streamers.service';
-import { IAddStreamer } from './types/addStreamer';
-import { IUpdateVotes } from './types/updateVotes';
+import { AddStreamerDto } from './dtos/add-streamer.dto.';
+import { UpdateVoteDto } from './dtos/update-vote.dto';
 
 @Controller('streamers')
 export class StreamersController {
@@ -20,7 +20,7 @@ export class StreamersController {
   @Post()
   addStreamer(
     @Body()
-    body: IAddStreamer,
+    body: AddStreamerDto,
   ) {
     return this.streamersService.add(
       body.streamerName,
@@ -30,7 +30,8 @@ export class StreamersController {
   }
 
   @Put('/:id/vote')
-  updateVote(@Param('id') id: string, @Body() body: IUpdateVotes) {
+  updateVote(@Param('id') id: string, @Body() body: UpdateVoteDto) {
+    console.log(body);
     return this.streamersService.updateVote(+id, body.type, body.vote);
   }
 }

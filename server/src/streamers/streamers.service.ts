@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { VoteTypes } from './types/updateVotes';
+import { VoteTypes } from './dtos/update-vote.dto';
 
 let streamers = [
   {
