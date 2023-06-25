@@ -7,16 +7,16 @@ let streamers = [
     streamerName: 'pewdiepie',
     platform: 'Twitch',
     description: 'Super streamer',
-    upvote: 34,
-    downvote: 2,
+    upvotes: 34,
+    downvotes: 2,
   },
   {
     id: 2,
     streamerName: 'pewdiepie1',
     platform: 'Yt',
     description: 'Super streamer milion',
-    upvote: 2,
-    downvote: 34,
+    upvotes: 2,
+    downvotes: 34,
   },
 ];
 
@@ -35,19 +35,19 @@ export class StreamersService {
       streamerName,
       platform,
       description,
-      upvote: 0,
-      downvote: 0,
+      upvotes: 0,
+      downvotes: 0,
     };
     streamers.push(newStreamer);
     return newStreamer;
   }
-  updateVote(id: number, type: VoteTypes, vote: number) {
+  updateVote(id: number, type: VoteTypes) {
     const streamer = streamers.find((streamer) => streamer.id === id);
 
     if (type === VoteTypes.upvote) {
-      streamer.upvote = vote;
+      streamer.upvotes++;
     } else {
-      streamer.downvote = vote;
+      streamer.downvotes++;
     }
   }
 }

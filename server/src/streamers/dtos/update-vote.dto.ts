@@ -9,8 +9,4 @@ export class UpdateVoteDto {
   @IsEnum(VoteTypes)
   @IsNotEmpty()
   type: VoteTypes;
-
-  @IsNumber()
-  @IsNotEmpty()
-  vote: number;
 }
