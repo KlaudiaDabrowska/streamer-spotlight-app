@@ -1,53 +1,47 @@
 import { Injectable } from '@nestjs/common';
 import { VoteTypes } from './dtos/update-vote.dto';
-
-let streamers = [
-  {
-    id: 1,
-    streamerName: 'pewdiepie',
-    platform: 'Twitch',
-    description: 'Super streamer',
-    upvotes: 34,
-    downvotes: 2,
-  },
-  {
-    id: 2,
-    streamerName: 'pewdiepie1',
-    platform: 'Yt',
-    description: 'Super streamer milion',
-    upvotes: 2,
-    downvotes: 34,
-  },
-];
+import { InjectRepository } from '@nestjs/typeorm';
+import { Streamer } from './streamers.entity';
+import { Repository } from 'typeorm';
+import { Platform } from './dtos/add-streamer.dto.';
 
 @Injectable()
 export class StreamersService {
+  constructor(@InjectRepository(Streamer) private repo: Repository<Streamer>) {}
+
   getAll() {
-    return streamers;
+    return this.repo.find();
   }
+
   getById(id: number) {
-    return streamers.find((streamer) => streamer.id === id);
+    return this.repo.findOneBy({ id });
   }
-  add(streamerName: string, platform: string, description) {
-    const id = Math.round(Math.random() * 100);
-    const newStreamer = {
-      id,
+
+  add(streamerName: string, platform: Platform, description: string) {
+    const newStreamer = this.repo.create({
       streamerName,
       platform,
       description,
       upvotes: 0,
       downvotes: 0,
-    };
-    streamers.push(newStreamer);
-    return newStreamer;
-  }
-  updateVote(id: number, type: VoteTypes) {
-    const streamer = streamers.find((streamer) => streamer.id === id);
+    });
 
-    if (type === VoteTypes.upvote) {
-      streamer.upvotes++;
-    } else {
-      streamer.downvotes++;
+    return this.repo.save(newStreamer);
+  }
+
+  async updateVote(id: number, type: VoteTypes) {
+    try {
+      const streamer = await this.repo.findOneBy({ id });
+
+      if (type === VoteTypes.upvote) {
+        streamer.upvotes++;
+      } else {
+        streamer.downvotes++;
+      }
+
+      this.repo.save(streamer);
+    } catch (e) {
+      throw new Error(e);
     }
   }
 }

@@ -31,7 +31,6 @@ export class StreamersController {
 
   @Put('/:id/vote')
   updateVote(@Param('id') id: string, @Body() body: UpdateVoteDto) {
-    console.log(body);
     return this.streamersService.updateVote(+id, body.type);
   }
 }
