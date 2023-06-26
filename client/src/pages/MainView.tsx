@@ -7,6 +7,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { StreamerSubmissionForm } from "../components/StreamerSubmissionForm";
+import { StreamersList } from "../components/StreamersList";
 
 export const MainView = () => {
   const theme = useTheme();
@@ -19,6 +20,7 @@ export const MainView = () => {
         flexGrow: 1,
         backgroundColor: "#8EC5FC",
         backgroundImage: "linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%)",
+        height: "100vh",
       }}
     >
       <Typography
@@ -41,6 +43,18 @@ export const MainView = () => {
             }}
           >
             <StreamerSubmissionForm />
+          </Paper>
+        </Grid>
+        <Grid item>
+          <Paper
+            sx={{
+              marginTop: 3,
+              padding: 2,
+              textAlign: "center",
+              width: isSmallScreen ? 300 : 800,
+            }}
+          >
+            <StreamersList />
           </Paper>
         </Grid>
       </Grid>
