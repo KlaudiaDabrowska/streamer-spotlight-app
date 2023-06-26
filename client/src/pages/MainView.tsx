@@ -15,14 +15,7 @@ export const MainView = () => {
   const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Box
-      style={{
-        flexGrow: 1,
-        backgroundColor: "#8EC5FC",
-        backgroundImage: "linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%)",
-        height: "100vh",
-      }}
-    >
+    <Box>
       <Typography
         variant="h3"
         sx={{
@@ -49,6 +42,7 @@ export const MainView = () => {
           <Paper
             sx={{
               marginTop: 3,
+              marginBottom: 3,
               padding: 2,
               textAlign: "center",
               width: isSmallScreen ? 300 : 800,
