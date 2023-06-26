@@ -17,7 +17,7 @@ export enum Platform {
 export class AddStreamerDto {
   @IsString()
   @IsNotEmpty()
-  @Length(3, 15, {
+  @Length(3, 20, {
     message:
       'Streamer name must be at least 3 characters, and max length must be less than 15 characters',
   })
