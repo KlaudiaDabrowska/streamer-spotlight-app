@@ -38,7 +38,6 @@ export const MainView = () => {
               padding: 2,
               textAlign: "center",
               width: isSmallScreen ? 300 : 800,
-              height: 600,
             }}
           >
             <StreamerSubmissionForm />
