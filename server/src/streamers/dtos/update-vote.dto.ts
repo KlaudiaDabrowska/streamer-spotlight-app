@@ -1,4 +1,4 @@
-import { IsEnum, IsNotEmpty, IsNumber } from 'class-validator';
+import { IsEnum, IsNotEmpty } from 'class-validator';
 
 export enum VoteTypes {
   upvote = 'upvote',
