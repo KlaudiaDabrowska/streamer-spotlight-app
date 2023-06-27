@@ -5,6 +5,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Streamer } from "./pages/Streamer";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "./styles/theme";
+import { NotFound } from "./pages/NotFound";
 
 function App() {
   const queryClient = new QueryClient();
@@ -15,6 +16,7 @@ function App() {
       element: <MainView />,
     },
     { path: "/:streamerId", element: <Streamer /> },
+    { path: "*", element: <NotFound /> },
   ]);
 
   return (
