@@ -30,18 +30,12 @@ export class StreamersService {
   }
 
   async updateVote(id: number, type: VoteTypes) {
-    try {
-      const streamer = await this.repo.findOneBy({ id });
-
-      if (type === VoteTypes.upvote) {
-        streamer.upvotes++;
-      } else {
-        streamer.downvotes++;
-      }
-
-      this.repo.save(streamer);
-    } catch (e) {
-      throw new Error(e);
+    if (type === VoteTypes.upvote) {
+      await this.repo.update(id, { upvotes: () => `upvotes + 1` });
+    } else if (type === VoteTypes.downvote) {
+      await this.repo.update(id, { downvotes: () => `downvotes + 1` });
+    } else {
+      throw new Error('Unsupported operation');
     }
   }
 }
