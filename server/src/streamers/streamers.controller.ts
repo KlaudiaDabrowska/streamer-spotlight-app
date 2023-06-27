@@ -1,20 +1,21 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Query } from '@nestjs/common';
 import { StreamersService } from './streamers.service';
-import { AddStreamerDto } from './dtos/add-streamer.dto.';
+import { AddStreamerDto } from './dtos/add-streamer.dto';
 import { UpdateVoteDto } from './dtos/update-vote.dto';
+import { PageOptionsDto } from 'src/shared/PageMetaDtoParameters';
 
 @Controller('streamers')
 export class StreamersController {
   constructor(private streamersService: StreamersService) {}
 
   @Get()
-  getStreamers() {
-    return this.streamersService.getAll();
+  getStreamers(@Query() pageOptions: PageOptionsDto) {
+    return this.streamersService.getAll(pageOptions);
   }
 
   @Get('/:id')
   getStreamerById(@Param('id') id: string) {
-    return this.streamersService.getById(+id);
+    return this.streamersService.getById(id);
   }
 
   @Post()

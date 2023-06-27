@@ -3,17 +3,27 @@ import { VoteTypes } from './dtos/update-vote.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Streamer } from './streamers.entity';
 import { Repository } from 'typeorm';
-import { Platform } from './dtos/add-streamer.dto.';
+import { Platform } from './dtos/add-streamer.dto';
+import { PageOptionsDto } from 'src/shared/PageMetaDtoParameters';
+import { PageDto, PageMetaDto } from 'src/shared/PageDto';
 
 @Injectable()
 export class StreamersService {
   constructor(@InjectRepository(Streamer) private repo: Repository<Streamer>) {}
 
-  getAll() {
-    return this.repo.find();
+  getAll(pageOptions: PageOptionsDto) {
+    return this.repo
+      .createQueryBuilder('streamers')
+      .skip(pageOptions.skip)
+      .take(pageOptions.itemsPerPage)
+      .getManyAndCount()
+      .then(
+        ([streamers, total]) =>
+          new PageDto(streamers, new PageMetaDto(pageOptions, total)),
+      );
   }
 
-  getById(id: number) {
+  getById(id: string) {
     return this.repo.findOneBy({ id });
   }
 
@@ -30,18 +40,12 @@ export class StreamersService {
   }
 
   async updateVote(id: number, type: VoteTypes) {
-    try {
-      const streamer = await this.repo.findOneBy({ id });
-
-      if (type === VoteTypes.upvote) {
-        streamer.upvotes++;
-      } else {
-        streamer.downvotes++;
-      }
-
-      this.repo.save(streamer);
-    } catch (e) {
-      throw new Error(e);
+    if (type === VoteTypes.upvote) {
+      await this.repo.update(id, { upvotes: () => `upvotes + 1` });
+    } else if (type === VoteTypes.downvote) {
+      await this.repo.update(id, { downvotes: () => `downvotes + 1` });
+    } else {
+      throw new Error('Unsupported operation');
     }
   }
 }

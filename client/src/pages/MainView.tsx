@@ -38,7 +38,7 @@ export const MainView = () => {
             <StreamerSubmissionForm />
           </Paper>
         </Grid>
-        <Grid item>
+        {/* <Grid item>
           <Paper
             sx={{
               marginTop: 3,
@@ -50,7 +50,7 @@ export const MainView = () => {
           >
             <StreamersList />
           </Paper>
-        </Grid>
+        </Grid> */}
       </Grid>
     </Box>
   );
