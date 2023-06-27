@@ -11,14 +11,14 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { useMutation } from "react-query";
-import { createNewStreamer } from "../api/createNewStreamer";
+import { createNewStreamer } from "../../api/createNewStreamer";
 import * as Yup from "yup";
-import { Platform } from "../lib/types/Platforms";
-import { FormError } from "./FormError";
-import { ErrorAlert } from "./ErrorAlert";
+import { Platform } from "../../lib/types/Platforms";
+import { ErrorAlert } from "../common/ErrorAlert";
 import { useEffect } from "react";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ErrorInfo } from "../common/ErrorInfo";
 
 export const StreamerSubmissionForm = () => {
   const {
@@ -103,7 +103,7 @@ export const StreamerSubmissionForm = () => {
               value={formik.values.streamerName}
             />
             {formik.errors.streamerName && formik.touched.streamerName && (
-              <FormError error={formik.errors.streamerName} />
+              <ErrorInfo error={formik.errors.streamerName} />
             )}
           </Grid>
           <Grid item xs={12}>
@@ -127,7 +127,7 @@ export const StreamerSubmissionForm = () => {
               <MenuItem value="Rumble">Rumble</MenuItem>
             </Select>
             {formik.errors.platform && formik.touched.platform && (
-              <FormError error={formik.errors.platform} />
+              <ErrorInfo error={formik.errors.platform} />
             )}
           </Grid>
           <Grid item xs={12}>
@@ -142,7 +142,7 @@ export const StreamerSubmissionForm = () => {
               value={formik.values.description}
             />
             {formik.errors.description && formik.touched.description && (
-              <FormError error={formik.errors.description} />
+              <ErrorInfo error={formik.errors.description} />
             )}
           </Grid>
           <Grid

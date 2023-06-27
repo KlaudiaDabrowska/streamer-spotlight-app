@@ -1,6 +1,6 @@
 import { Box, Typography } from "@mui/material";
 
-export const FormError = ({ error }: { error?: string | string[] }) => {
+export const ErrorInfo = ({ error }: { error?: string | string[] }) => {
   return (
     <Box>
       <Typography
