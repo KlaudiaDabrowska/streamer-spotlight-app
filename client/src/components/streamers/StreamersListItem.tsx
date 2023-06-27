@@ -5,8 +5,10 @@ import { Votes } from "./Votes";
 
 export const StreamersListItem = ({
   streamer,
+  refetch,
 }: {
   streamer: IStreamerObject;
+  refetch: () => void;
 }) => {
   return (
     <Grid item xs={12}>
@@ -20,7 +22,7 @@ export const StreamersListItem = ({
             </Link>
           </CardContent>
           <CardContent>
-            <Votes streamer={streamer} />
+            <Votes streamer={streamer} refetch={refetch} />
           </CardContent>
         </Box>
       </Card>
