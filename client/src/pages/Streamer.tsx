@@ -21,13 +21,14 @@ export const Streamer = () => {
 
   const streamerId = params.streamerId;
 
-  const {
-    data: streamerInfo,
-    isLoading,
-    refetch,
-  } = useQuery("streamerInfo", () => getStreamerById(parseInt(streamerId!)), {
-    enabled: streamerId !== "undefined",
-  });
+  const { data: streamerInfo, isLoading } = useQuery(
+    "streamerInfo",
+    () => getStreamerById(parseInt(streamerId!)),
+    {
+      enabled: streamerId !== "undefined",
+      refetchInterval: 2000,
+    }
+  );
 
   return (
     <MainTemplate>
@@ -42,7 +43,7 @@ export const Streamer = () => {
           {isLoading ? (
             <LoadingState />
           ) : (
-            <StreamerInfo streamer={streamerInfo} refetch={refetch} />
+            <StreamerInfo streamer={streamerInfo} />
           )}
         </Paper>
       </Grid>

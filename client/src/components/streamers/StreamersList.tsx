@@ -5,11 +5,13 @@ import { StreamersListItem } from "./StreamersListItem";
 import { LoadingState } from "../common/LoadingState";
 
 export const StreamersList = () => {
-  const {
-    data: streamersList,
-    isLoading,
-    refetch,
-  } = useQuery("streamersList", getAllStreamers);
+  const { data: streamersList, isLoading } = useQuery(
+    "streamersList",
+    getAllStreamers,
+    {
+      refetchInterval: 2000,
+    }
+  );
 
   return (
     <Container>
@@ -21,11 +23,7 @@ export const StreamersList = () => {
           <LoadingState />
         ) : streamersList ? (
           streamersList?.map((streamer) => (
-            <StreamersListItem
-              streamer={streamer}
-              key={streamer.id}
-              refetch={refetch}
-            />
+            <StreamersListItem streamer={streamer} key={streamer.id} />
           ))
         ) : (
           <Typography variant="h5">No streamers available.</Typography>

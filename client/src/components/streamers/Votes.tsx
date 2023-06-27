@@ -9,16 +9,9 @@ import {
   updateStreamerVote,
 } from "../../api/updateStreamerVote";
 
-export const Votes = ({
-  streamer,
-  refetch,
-}: {
-  streamer?: IStreamerObject;
-  refetch: () => void;
-}) => {
+export const Votes = ({ streamer }: { streamer?: IStreamerObject }) => {
   const { mutate: updateStreamerVoteMutation } = useMutation(
-    (type: IUpdateVote) => updateStreamerVote(type, streamer?.id),
-    { onSuccess: () => refetch() }
+    (type: IUpdateVote) => updateStreamerVote(type, streamer?.id)
   );
 
   return (

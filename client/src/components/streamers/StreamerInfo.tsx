@@ -2,13 +2,7 @@ import { Container, Grid, Typography } from "@mui/material";
 import { IStreamerObject } from "../../lib/types/Streamers";
 import { Votes } from "./Votes";
 
-export const StreamerInfo = ({
-  streamer,
-  refetch,
-}: {
-  streamer?: IStreamerObject;
-  refetch: any;
-}) => {
+export const StreamerInfo = ({ streamer }: { streamer?: IStreamerObject }) => {
   return (
     <Container>
       <Grid container spacing={2}>
@@ -20,7 +14,7 @@ export const StreamerInfo = ({
           <div>image</div>
         </Grid>
         <Grid item xs={12}>
-          <Votes streamer={streamer} refetch={refetch} />
+          <Votes streamer={streamer} />
         </Grid>
         <Grid item xs={12}>
           <Typography variant="h5">{streamer?.description}</Typography>
