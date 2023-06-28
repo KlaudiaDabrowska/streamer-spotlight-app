@@ -4,10 +4,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Streamer } from './streamers.entity';
 import { Repository } from 'typeorm';
 import { Platform } from './dtos/add-streamer.dto.';
+import { StreamerSseService } from './streamers_sse.service';
 
 @Injectable()
 export class StreamersService {
-  constructor(@InjectRepository(Streamer) private repo: Repository<Streamer>) {}
+  constructor(
+    @InjectRepository(Streamer) private repo: Repository<Streamer>,
+    private streamerSseService: StreamerSseService,
+  ) {}
 
   getAll() {
     return this.repo.find();
@@ -17,7 +21,7 @@ export class StreamersService {
     return this.repo.findOneBy({ id });
   }
 
-  add(streamerName: string, platform: Platform, description: string) {
+  async add(streamerName: string, platform: Platform, description: string) {
     const newStreamer = this.repo.create({
       streamerName,
       platform,
@@ -26,7 +30,9 @@ export class StreamersService {
       downvotes: 0,
     });
 
-    return this.repo.save(newStreamer);
+    const savedStreamer = await this.repo.save(newStreamer);
+    this.streamerSseService.pushEvent(savedStreamer);
+    return savedStreamer;
   }
 
   async updateVote(id: number, type: VoteTypes) {
@@ -37,5 +43,7 @@ export class StreamersService {
     } else {
       throw new Error('Unsupported operation');
     }
+    const updated = await this.repo.findOneBy({ id: id });
+    this.streamerSseService.pushEvent(updated);
   }
 }

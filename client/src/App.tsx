@@ -7,9 +7,9 @@ import { ThemeProvider } from "@mui/material";
 import { theme } from "./styles/theme";
 import { NotFound } from "./pages/NotFound";
 
-function App() {
-  const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
+function App() {
   const router = createBrowserRouter([
     {
       path: "/",
