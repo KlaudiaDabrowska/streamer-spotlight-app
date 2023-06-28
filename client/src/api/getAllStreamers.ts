@@ -1,7 +1,9 @@
 import { apiClient } from "../config/apiConfig";
-import { IStreamerObject } from "../lib/types/Streamers";
+import { IStreamersResponse } from "../lib/types/Streamers";
 
-export const getAllStreamers = async () => {
-  const response = await apiClient.get<IStreamerObject[]>("/streamers");
+export const getAllStreamers = async (page: number) => {
+  const response = await apiClient.get<IStreamersResponse>(
+    `/streamers?itemsPerPage=10&page=${page}`
+  );
   return response.data;
 };

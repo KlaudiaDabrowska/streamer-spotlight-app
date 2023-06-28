@@ -1,10 +1,4 @@
-import {
-  CircularProgress,
-  Grid,
-  Paper,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Grid, Paper, useMediaQuery, useTheme } from "@mui/material";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getStreamerById } from "../api/getStreamerById";
@@ -14,6 +8,7 @@ import { LoadingState } from "../components/common/LoadingState";
 import { ErrorInfo } from "../components/common/ErrorInfo";
 import { useEffect } from "react";
 import { queryClient } from "../App";
+import { IStreamerObject } from "../lib/types/Streamers";
 
 export const Streamer = () => {
   const theme = useTheme();
@@ -37,10 +32,9 @@ export const Streamer = () => {
       `${process.env.REACT_APP_BASE_API_URL}/streamers/sse`
     );
     eventSource.onmessage = ({ data }) => {
-      queryClient.setQueryData("streamerInfo", (oldData: any) => {
+      queryClient.setQueryData<IStreamerObject>("streamerInfo", (oldData) => {
         const dataObj = JSON.parse(data);
-
-        const updatedData = oldData.id === dataObj.id ? dataObj : oldData;
+        const updatedData = oldData!.id === dataObj.id ? dataObj : oldData;
 
         return updatedData;
       });

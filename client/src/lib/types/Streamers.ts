@@ -6,6 +6,11 @@ export interface INewStreamer {
   description: string;
 }
 
+export interface IStreamersResponse {
+  data: IStreamerObject[];
+  meta: IMetaOptions;
+}
+
 export interface IStreamerObject {
   id: number;
   streamerName: string;
@@ -13,4 +18,10 @@ export interface IStreamerObject {
   description: string;
   upvotes: number;
   downvotes: number;
+}
+
+interface IMetaOptions {
+  page: number;
+  items: number;
+  total: number;
 }

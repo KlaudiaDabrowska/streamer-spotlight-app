@@ -5,6 +5,11 @@ import { Streamer } from './streamers.entity';
 import { Repository } from 'typeorm';
 import { Platform } from './dtos/add-streamer.dto.';
 import { StreamerSseService } from './streamers_sse.service';
+import {
+  PageOptionsDto,
+  SortablePageOptionsDto,
+} from 'src/shared/dtos/PageMetaDtoParameters';
+import { PageDto, PageMetaDto } from 'src/shared/dtos/PageDto';
 
 @Injectable()
 export class StreamersService {
@@ -13,8 +18,22 @@ export class StreamersService {
     private streamerSseService: StreamerSseService,
   ) {}
 
-  getAll() {
-    return this.repo.find();
+  getAll(pageOptions: SortablePageOptionsDto<Streamer>) {
+    const query = this.repo
+      .createQueryBuilder('streamers')
+      .skip(pageOptions.skip)
+      .take(pageOptions.itemsPerPage);
+
+    pageOptions.orders.forEach((order) => {
+      query.addOrderBy(order.field, order.direction);
+    });
+
+    return query
+      .getManyAndCount()
+      .then(
+        ([streamers, total]) =>
+          new PageDto(streamers, new PageMetaDto(pageOptions, total)),
+      );
   }
 
   getById(id: number) {
