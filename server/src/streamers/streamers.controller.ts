@@ -2,8 +2,8 @@ import { Body, Controller, Get, Param, Post, Put, Sse } from '@nestjs/common';
 import { StreamersService } from './streamers.service';
 import { AddStreamerDto } from './dtos/add-streamer.dto.';
 import { UpdateVoteDto } from './dtos/update-vote.dto';
-import { Observable, interval, map } from 'rxjs';
-import { StreamerSseService } from './streamer_sse.service';
+import { Observable } from 'rxjs';
+import { StreamerSseService } from './streamers_sse.service';
 
 @Controller('streamers')
 export class StreamersController {

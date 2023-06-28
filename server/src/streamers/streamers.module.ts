@@ -3,7 +3,7 @@ import { StreamersController } from './streamers.controller';
 import { StreamersService } from './streamers.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Streamer } from './streamers.entity';
-import { StreamerSseService } from './streamer_sse.service';
+import { StreamerSseService } from './streamers_sse.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Streamer])],

@@ -32,15 +32,23 @@ export const Streamer = () => {
     enabled: streamerId !== "undefined",
   });
 
-  // useEffect(() => {
-  //   const eventSource = new EventSource("http://localhost:3001/streamers/sse");
-  //   eventSource.onmessage = ({ data }) => {
-  //     queryClient.setQueryData("streamerInfo", () => {
-  //       const JSONData = JSON.parse(data);
-  //       return JSONData;
-  //     });
-  //   };
-  // }, []);
+  useEffect(() => {
+    const eventSource = new EventSource(
+      `${process.env.REACT_APP_BASE_API_URL}/streamers/sse`
+    );
+    eventSource.onmessage = ({ data }) => {
+      queryClient.setQueryData("streamerInfo", (oldData: any) => {
+        const dataObj = JSON.parse(data);
+
+        const updatedData = oldData.id === dataObj.id ? dataObj : oldData;
+
+        return updatedData;
+      });
+    };
+    return () => {
+      eventSource.close();
+    };
+  }, []);
 
   return (
     <MainTemplate>

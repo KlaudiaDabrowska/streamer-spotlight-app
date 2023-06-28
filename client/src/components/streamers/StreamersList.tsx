@@ -13,18 +13,23 @@ export const StreamersList = () => {
   );
 
   useEffect(() => {
-    const eventSource = new EventSource("http://localhost:3001/streamers/sse");
+    const eventSource = new EventSource(
+      `${process.env.REACT_APP_BASE_API_URL}/streamers/sse`
+    );
     eventSource.onmessage = ({ data }) => {
       queryClient.setQueryData("streamersList", (oldData: any) => {
-        const JSONData = JSON.parse(data);
+        const dataObj = JSON.parse(data);
         const updatedData = [
-          ...oldData.filter((item: any) => item.id < JSONData.id),
-          JSONData,
-          ...oldData.filter((item: any) => item.id > JSONData.id),
+          ...oldData.filter((item: any) => item.id < dataObj.id),
+          dataObj,
+          ...oldData.filter((item: any) => item.id > dataObj.id),
         ];
 
         return updatedData;
       });
+    };
+    return () => {
+      eventSource.close();
     };
   }, []);
 
