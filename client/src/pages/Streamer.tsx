@@ -1,10 +1,4 @@
-import {
-  CircularProgress,
-  Grid,
-  Paper,
-  useMediaQuery,
-  useTheme,
-} from "@mui/material";
+import { Grid, Paper, useMediaQuery, useTheme } from "@mui/material";
 import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getStreamerById } from "../api/getStreamerById";
@@ -14,6 +8,9 @@ import { LoadingState } from "../components/common/LoadingState";
 import { ErrorInfo } from "../components/common/ErrorInfo";
 import { useEffect } from "react";
 import { queryClient } from "../App";
+import { IconButton, Typography } from "@mui/material";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { Link } from "react-router-dom";
 
 export const Streamer = () => {
   const theme = useTheme();
@@ -52,6 +49,14 @@ export const Streamer = () => {
 
   return (
     <MainTemplate>
+      <Grid item>
+        <Link to={`/`} style={{ textDecoration: "none" }}>
+          <IconButton>
+            <ArrowBackIcon fontSize="small" sx={{ mr: 1 }} />
+            <Typography variant="subtitle2">Back to the main page</Typography>
+          </IconButton>
+        </Link>
+      </Grid>
       <Grid item>
         <Paper
           sx={{

@@ -1,6 +1,8 @@
-import { Container, Grid, Typography } from "@mui/material";
+import { Container, Grid, IconButton, Typography } from "@mui/material";
 import { IStreamerObject } from "../../lib/types/Streamers";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Votes } from "./Votes";
+import { Link } from "react-router-dom";
 
 export const StreamerInfo = ({ streamer }: { streamer?: IStreamerObject }) => {
   return (

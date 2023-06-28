@@ -11,9 +11,15 @@ export const StreamersListItem = ({
   return (
     <Grid item xs={12}>
       <Card>
-        <Box sx={{ display: "flex", flexDirection: "row" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            overflowX: "auto",
+          }}
+        >
           <CardContent sx={{ flex: "1" }}>
-            <Link to={`/${streamer.id}`}>
+            <Link to={`/${streamer.id}`} style={{ textDecoration: "none" }}>
               <Typography variant="h5" textAlign="left">
                 {streamer.streamerName}
               </Typography>
