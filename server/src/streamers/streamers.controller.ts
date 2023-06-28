@@ -13,11 +13,7 @@ import { AddStreamerDto } from './dtos/add-streamer.dto.';
 import { UpdateVoteDto } from './dtos/update-vote.dto';
 import { Observable } from 'rxjs';
 import { StreamerSseService } from './streamers_sse.service';
-import {
-  PageOptionsDto,
-  SortablePageOptionsDto,
-} from 'src/shared/dtos/PageMetaDtoParameters';
-import { Streamer } from './streamers.entity';
+import { PageOptionsDto } from 'src/shared/dtos/PageMetaDtoParameters';
 
 @Controller('streamers')
 export class StreamersController {
@@ -27,7 +23,7 @@ export class StreamersController {
   ) {}
 
   @Get()
-  getStreamers(@Query() pageOptions: SortablePageOptionsDto<Streamer>) {
+  getStreamers(@Query() pageOptions: PageOptionsDto) {
     return this.streamersService.getAll(pageOptions);
   }
 

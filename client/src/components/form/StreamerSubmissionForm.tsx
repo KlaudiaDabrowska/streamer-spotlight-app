@@ -47,7 +47,7 @@ export const StreamerSubmissionForm = () => {
   const formik = useFormik({
     initialValues: {
       streamerName: "",
-      platform: "",
+      platform: Platform.YouTube,
       description: "",
     },
     validationSchema: Yup.object({
@@ -65,7 +65,7 @@ export const StreamerSubmissionForm = () => {
     onSubmit: (values) => {
       createNewStreamerMutation({
         streamerName: values.streamerName,
-        platform: Platform.YouTube,
+        platform: Platform[values.platform],
         description: values.description,
       });
     },
