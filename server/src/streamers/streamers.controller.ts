@@ -1,15 +1,25 @@
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Sse } from '@nestjs/common';
 import { StreamersService } from './streamers.service';
 import { AddStreamerDto } from './dtos/add-streamer.dto.';
 import { UpdateVoteDto } from './dtos/update-vote.dto';
+import { Observable, interval, map } from 'rxjs';
+import { StreamerSseService } from './streamer_sse.service';
 
 @Controller('streamers')
 export class StreamersController {
-  constructor(private streamersService: StreamersService) {}
+  constructor(
+    private streamersService: StreamersService,
+    private sseService: StreamerSseService,
+  ) {}
 
   @Get()
   getStreamers() {
     return this.streamersService.getAll();
+  }
+
+  @Sse('sse')
+  sse(): Observable<any> {
+    return this.sseService.sse();
   }
 
   @Get('/:id')

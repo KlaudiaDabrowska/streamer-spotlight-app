@@ -12,6 +12,8 @@ import { StreamerInfo } from "../components/streamers/StreamerInfo";
 import { MainTemplate } from "../templates/MainTemplate";
 import { LoadingState } from "../components/common/LoadingState";
 import { ErrorInfo } from "../components/common/ErrorInfo";
+import { useEffect } from "react";
+import { queryClient } from "../App";
 
 export const Streamer = () => {
   const theme = useTheme();
@@ -28,8 +30,17 @@ export const Streamer = () => {
     isError,
   } = useQuery("streamerInfo", () => getStreamerById(parseInt(streamerId!)), {
     enabled: streamerId !== "undefined",
-    refetchInterval: 2000,
   });
+
+  // useEffect(() => {
+  //   const eventSource = new EventSource("http://localhost:3001/streamers/sse");
+  //   eventSource.onmessage = ({ data }) => {
+  //     queryClient.setQueryData("streamerInfo", () => {
+  //       const JSONData = JSON.parse(data);
+  //       return JSONData;
+  //     });
+  //   };
+  // }, []);
 
   return (
     <MainTemplate>

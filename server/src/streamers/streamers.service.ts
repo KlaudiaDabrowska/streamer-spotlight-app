@@ -4,10 +4,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Streamer } from './streamers.entity';
 import { Repository } from 'typeorm';
 import { Platform } from './dtos/add-streamer.dto.';
+import { StreamerSseService, StreamerUpdated } from './streamer_sse.service';
 
 @Injectable()
 export class StreamersService {
-  constructor(@InjectRepository(Streamer) private repo: Repository<Streamer>) {}
+  constructor(
+    @InjectRepository(Streamer) private repo: Repository<Streamer>,
+    private streamerSseService: StreamerSseService,
+  ) {}
 
   getAll() {
     return this.repo.find();
@@ -37,5 +41,7 @@ export class StreamersService {
     } else {
       throw new Error('Unsupported operation');
     }
+    const updated = await this.repo.findOneBy({ id: id });
+    this.streamerSseService.pushEvent(updated);
   }
 }
