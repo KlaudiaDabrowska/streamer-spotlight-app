@@ -1,9 +1,19 @@
-import { Body, Controller, Get, Param, Post, Put, Sse } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  Put,
+  Query,
+  Sse,
+} from '@nestjs/common';
 import { StreamersService } from './streamers.service';
 import { AddStreamerDto } from './dtos/add-streamer.dto.';
 import { UpdateVoteDto } from './dtos/update-vote.dto';
 import { Observable } from 'rxjs';
 import { StreamerSseService } from './streamers_sse.service';
+import { PageOptionsDto } from 'src/shared/dtos/PageMetaDtoParameters';
 
 @Controller('streamers')
 export class StreamersController {
@@ -13,8 +23,8 @@ export class StreamersController {
   ) {}
 
   @Get()
-  getStreamers() {
-    return this.streamersService.getAll();
+  getStreamers(@Query() pageOptions: PageOptionsDto) {
+    return this.streamersService.getAll(pageOptions);
   }
 
   @Sse('sse')

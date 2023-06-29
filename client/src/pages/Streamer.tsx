@@ -11,6 +11,7 @@ import { queryClient } from "../App";
 import { IconButton, Typography } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { Link } from "react-router-dom";
+import { IStreamerObject } from "../lib/types/Streamers";
 
 export const Streamer = () => {
   const theme = useTheme();
@@ -34,10 +35,9 @@ export const Streamer = () => {
       `${process.env.REACT_APP_BASE_API_URL}/streamers/sse`
     );
     eventSource.onmessage = ({ data }) => {
-      queryClient.setQueryData("streamerInfo", (oldData: any) => {
+      queryClient.setQueryData<IStreamerObject>("streamerInfo", (oldData) => {
         const dataObj = JSON.parse(data);
-
-        const updatedData = oldData.id === dataObj.id ? dataObj : oldData;
+        const updatedData = oldData!.id === dataObj.id ? dataObj : oldData;
 
         return updatedData;
       });

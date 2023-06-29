@@ -15,7 +15,7 @@ function App() {
       path: "/",
       element: <MainView />,
     },
-    { path: "/:streamerId", element: <Streamer /> },
+    { path: "/streamer/:streamerId", element: <Streamer /> },
     { path: "*", element: <NotFound /> },
   ]);
 

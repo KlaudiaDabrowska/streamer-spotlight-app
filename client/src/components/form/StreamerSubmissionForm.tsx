@@ -47,7 +47,7 @@ export const StreamerSubmissionForm = () => {
   const formik = useFormik({
     initialValues: {
       streamerName: "",
-      platform: "",
+      platform: Platform.YouTube,
       description: "",
     },
     validationSchema: Yup.object({
@@ -65,7 +65,7 @@ export const StreamerSubmissionForm = () => {
     onSubmit: (values) => {
       createNewStreamerMutation({
         streamerName: values.streamerName,
-        platform: Platform.YouTube,
+        platform: Platform[values.platform],
         description: values.description,
       });
     },
@@ -107,9 +107,6 @@ export const StreamerSubmissionForm = () => {
             )}
           </Grid>
           <Grid item xs={12}>
-            <InputLabel id="platform-select" sx={{ textAlign: "start" }}>
-              Platform
-            </InputLabel>
             <Select
               labelId="platform-select"
               id="platform"
