@@ -10,7 +10,7 @@ export const StreamersListItem = ({
 }) => {
   return (
     <Grid item xs={12}>
-      <Card>
+      <Card sx={{ mb: 2 }}>
         <Box
           sx={{
             display: "flex",

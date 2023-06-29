@@ -107,9 +107,6 @@ export const StreamerSubmissionForm = () => {
             )}
           </Grid>
           <Grid item xs={12}>
-            <InputLabel id="platform-select" sx={{ textAlign: "start" }}>
-              Platform
-            </InputLabel>
             <Select
               labelId="platform-select"
               id="platform"

@@ -2,14 +2,13 @@ import { useQuery } from "react-query";
 import { Direction, getAllStreamers } from "../../api/getAllStreamers";
 import {
   Box,
-  Card,
-  CardContent,
   Container,
   FormControl,
   Grid,
   MenuItem,
   Pagination,
   Select,
+  SelectChangeEvent,
   Typography,
 } from "@mui/material";
 import { StreamersListItem } from "./StreamersListItem";
@@ -19,17 +18,21 @@ import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { IStreamerObject, IStreamersResponse } from "../../lib/types/Streamers";
 
+type SortingObject = {
+  [key: string]: string;
+};
+
 export const StreamersList = () => {
   const [page, setPage] = useState(1);
-  const [field, setField] = useState("downvotes");
+  const [field, setField] = useState("upvotes");
   const [direction, setDirection] = useState(Direction.DESC);
+  const [selectedOption, setSelectedOption] = useState("");
 
   const [searchParams, setSearchParams] = useSearchParams();
 
   const { data: streamersList, isLoading } = useQuery(
     ["streamersList", page, field, direction],
     () => getAllStreamers(page, field, direction)
-    // { keepPreviousData: true }
   );
 
   useEffect(() => {
@@ -52,13 +55,6 @@ export const StreamersList = () => {
             meta: oldData.meta,
           };
 
-          console.log(" data");
-          console.log(dataObj);
-          console.log("old data");
-          console.log(oldData);
-          console.log("updated data");
-          console.log(updatedStreamer);
-
           return updatedStreamer;
         }
       );
@@ -68,9 +64,36 @@ export const StreamersList = () => {
     };
   }, [direction, field, page]);
 
-  const handlePageChange = (event: any, page: any) => {
+  const sortingArray: SortingObject[] = [
+    { "Upvotes ascending": "upvotes ASC" },
+    { "Upvotes descending": "upvotes DESC" },
+    { "Downvotes ascending": "downvotes ASC" },
+    { "Downvotes descending": "downvotes DESC" },
+    { "Streamer name ascending": "streamerName ASC" },
+    { "Streamer name descending": "streamerName DESC" },
+  ];
+
+  const handlePageChange = (event: any, page: number) => {
     setPage(page);
-    setSearchParams({ page: page });
+    setSearchParams({ page, field, direction });
+  };
+
+  //todo: add multiple sorting
+  const handleSelectChange = (event: SelectChangeEvent<string>) => {
+    const selectedOption = event.target.value;
+    setSelectedOption(selectedOption);
+
+    const selectedObject = sortingArray.find(
+      (item) => Object.keys(item)[0] === selectedOption
+    );
+
+    if (selectedObject) {
+      const selectedValue = selectedObject[selectedOption];
+      const [field, direction] = selectedValue.split(" ");
+      setField(field);
+      setDirection(direction as Direction);
+      setSearchParams({ page, field, direction });
+    }
   };
 
   return (
@@ -95,16 +118,18 @@ export const StreamersList = () => {
                 <Select
                   labelId="sortBY"
                   id="sortBY"
-                  // value={age}
-                  // onChange={handleChange}
+                  value={selectedOption}
+                  onChange={handleSelectChange}
                   label="sortBY"
                 >
-                  <MenuItem value="">
-                    <em>None</em>
-                  </MenuItem>
-                  <MenuItem value={10}>Upvotes</MenuItem>
-                  <MenuItem value={20}>Twenty</MenuItem>
-                  <MenuItem value={30}>Thirty</MenuItem>
+                  {sortingArray.map((item) => {
+                    const key = Object.keys(item)[0];
+                    return (
+                      <MenuItem value={key} key={key}>
+                        {key}
+                      </MenuItem>
+                    );
+                  })}
                 </Select>
               </FormControl>
             </Box>
@@ -113,7 +138,7 @@ export const StreamersList = () => {
             ))}
             <Pagination
               count={Math.ceil(streamersList.meta.total / 10)}
-              page={page}
+              page={+page}
               onChange={handlePageChange}
               color="primary"
               showFirstButton
