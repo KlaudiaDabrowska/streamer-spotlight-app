@@ -46,7 +46,9 @@ export const StreamersList = () => {
             <StreamersListItem streamer={streamer} key={streamer.id} />
           ))
         ) : (
-          <Typography variant="h5">No streamers available.</Typography>
+          <Grid item xs={12}>
+            <Typography variant="h5">No streamers available.</Typography>
+          </Grid>
         )}
       </Grid>
     </Container>
