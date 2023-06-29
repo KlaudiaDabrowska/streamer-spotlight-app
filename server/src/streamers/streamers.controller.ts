@@ -12,14 +12,17 @@ import { StreamersService } from './streamers.service';
 import { AddStreamerDto } from './dtos/add-streamer.dto.';
 import { UpdateVoteDto } from './dtos/update-vote.dto';
 import { Observable } from 'rxjs';
-import { StreamerSseService, StreamerUpdated } from './streamers_sse.service';
+import {
+  StreamerEventsService,
+  StreamerUpdated,
+} from './streamers_events.service';
 import { PageOptionsDto } from 'src/shared/dtos/PageMetaDtoParameters';
 
-@Controller('streamers')
+@Controller('/streamers')
 export class StreamersController {
   constructor(
     private streamersService: StreamersService,
-    private sseService: StreamerSseService,
+    private streamerEventsService: StreamerEventsService,
   ) {}
 
   @Get()
@@ -27,21 +30,18 @@ export class StreamersController {
     return this.streamersService.getAll(pageOptions);
   }
 
-  @Sse('sse')
-  sse(): Observable<MessageEvent<StreamerUpdated>> {
-    return this.sseService.sse();
+  @Sse('/streamer-events')
+  subscribeToStreamerEvents(): Observable<MessageEvent<StreamerUpdated>> {
+    return this.streamerEventsService.subscribe();
   }
 
   @Get('/:id')
   getStreamerById(@Param('id') id: string) {
-    return this.streamersService.getById(+id);
+    return this.streamersService.getById(id);
   }
 
   @Post()
-  addStreamer(
-    @Body()
-    body: AddStreamerDto,
-  ) {
+  addStreamer(@Body() body: AddStreamerDto) {
     return this.streamersService.add(
       body.streamerName,
       body.platform,
@@ -51,6 +51,6 @@ export class StreamersController {
 
   @Put('/:id/vote')
   updateVote(@Param('id') id: string, @Body() body: UpdateVoteDto) {
-    return this.streamersService.updateVote(+id, body.type);
+    return this.streamersService.updateVote(id, body.type);
   }
 }

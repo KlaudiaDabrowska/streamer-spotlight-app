@@ -3,7 +3,7 @@ import { Subject, Observable } from 'rxjs';
 import { Platform } from './dtos/add-streamer.dto.';
 
 export interface StreamerUpdated {
-  id: number;
+  id: string;
   streamerName: string;
   platform: Platform;
   description: string;
@@ -13,14 +13,14 @@ export interface StreamerUpdated {
 }
 
 @Injectable()
-export class StreamerSseService {
+export class StreamerEventsService {
   private eventSubject = new Subject<MessageEvent<StreamerUpdated>>();
 
   pushEvent(event: StreamerUpdated) {
     this.eventSubject.next({ data: event } as MessageEvent<StreamerUpdated>);
   }
 
-  sse(): Observable<MessageEvent<StreamerUpdated>> {
+  subscribe(): Observable<MessageEvent<StreamerUpdated>> {
     return this.eventSubject.asObservable();
   }
 }

@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  streamer-spotlight-db:
+    image: postgres:15.3
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_DB=streamer-spotlight-db
+      - POSTGRES_PASSWORD=secret-password
+      - POSTGRES_USER=streamer-spotlight

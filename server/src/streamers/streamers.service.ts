@@ -4,15 +4,16 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Streamer } from './streamers.entity';
 import { Repository } from 'typeorm';
 import { Platform } from './dtos/add-streamer.dto.';
-import { StreamerSseService } from './streamers_sse.service';
+import { StreamerEventsService } from './streamers_events.service';
 import { PageOptionsDto } from 'src/shared/dtos/PageMetaDtoParameters';
 import { PageDto, PageMetaDto } from 'src/shared/dtos/PageDto';
+import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class StreamersService {
   constructor(
     @InjectRepository(Streamer) private repo: Repository<Streamer>,
-    private streamerSseService: StreamerSseService,
+    private streamerSseService: StreamerEventsService,
   ) {}
 
   getAll(pageOptions: PageOptionsDto) {
@@ -34,12 +35,13 @@ export class StreamersService {
       );
   }
 
-  getById(id: number) {
+  getById(id: string) {
     return this.repo.findOneBy({ id });
   }
 
   async add(streamerName: string, platform: Platform, description: string) {
     const newStreamer = this.repo.create({
+      id: uuidv4(),
       streamerName,
       platform,
       description,
@@ -54,7 +56,7 @@ export class StreamersService {
     return savedStreamer;
   }
 
-  async updateVote(id: number, type: VoteTypes) {
+  async updateVote(id: string, type: VoteTypes) {
     if (type === VoteTypes.upvote) {
       await this.repo.update(id, { upvotes: () => `upvotes + 1` });
     } else if (type === VoteTypes.downvote) {
@@ -62,6 +64,8 @@ export class StreamersService {
     } else {
       throw new Error('Unsupported operation');
     }
+    //typeorm does not support custom queries in save function so instead of implementing
+    //optimistic / pessimistic locking I decided to fetch the record after updating
     const updated = await this.repo.findOneBy({ id: id });
     this.streamerSseService.pushEvent(updated);
   }

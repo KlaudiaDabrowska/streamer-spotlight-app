@@ -32,15 +32,22 @@ export const Streamer = () => {
 
   useEffect(() => {
     const eventSource = new EventSource(
-      `${process.env.REACT_APP_BASE_API_URL}/streamers/sse`
+      `${process.env.REACT_APP_BASE_API_URL}/streamers/streamer-events`
     );
     eventSource.onmessage = ({ data }) => {
-      queryClient.setQueryData<IStreamerObject>("streamerInfo", (oldData) => {
-        const dataObj = JSON.parse(data);
-        const updatedData = oldData!.id === dataObj.id ? dataObj : oldData;
+      queryClient.setQueryData<IStreamerObject | undefined>(
+        "streamerInfo",
+        (streamer) => {
+          if (streamer === undefined) {
+            return undefined;
+          }
+          const updatedStreamer = JSON.parse(data);
+          const updatedData =
+            streamer.id === updatedStreamer.id ? updatedStreamer : streamer;
 
-        return updatedData;
-      });
+          return updatedData;
+        }
+      );
     };
     return () => {
       eventSource.close();

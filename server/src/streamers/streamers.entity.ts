@@ -3,8 +3,8 @@ import { Platform } from './dtos/add-streamer.dto.';
 
 @Entity()
 export class Streamer {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @Column()
   streamerName: string;
