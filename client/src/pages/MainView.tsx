@@ -6,7 +6,7 @@ import { MainTemplate } from "../templates/MainTemplate";
 export const MainView = () => {
   const theme = useTheme();
 
-  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <MainTemplate>

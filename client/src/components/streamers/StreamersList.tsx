@@ -122,7 +122,9 @@ export const StreamersList = () => {
             />
           </Grid>
         ) : (
-          <Typography variant="h5">No streamers available.</Typography>
+          <Grid item xs={12}>
+            <Typography variant="h5">No streamers available.</Typography>
+          </Grid>
         )}
       </Grid>
     </Container>

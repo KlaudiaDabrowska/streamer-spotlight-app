@@ -9,19 +9,27 @@ export const StreamersListItem = ({
   streamer: IStreamerObject;
 }) => {
   return (
-    <Card sx={{ my: 2 }}>
-      <Box sx={{ display: "flex", flexDirection: "row" }}>
-        <CardContent sx={{ flex: "1" }}>
-          <Link to={`/streamer/${streamer.id}`}>
-            <Typography variant="h5" textAlign="left">
-              {streamer.streamerName}
-            </Typography>
-          </Link>
-        </CardContent>
-        <CardContent>
-          <Votes streamer={streamer} />
-        </CardContent>
-      </Box>
-    </Card>
+    <Grid item xs={12}>
+      <Card>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            overflowX: "auto",
+          }}
+        >
+          <CardContent sx={{ flex: "1" }}>
+            <Link to={`/${streamer.id}`} style={{ textDecoration: "none" }}>
+              <Typography variant="h5" textAlign="left">
+                {streamer.streamerName}
+              </Typography>
+            </Link>
+          </CardContent>
+          <CardContent>
+            <Votes streamer={streamer} />
+          </CardContent>
+        </Box>
+      </Card>
+    </Grid>
   );
 };
