@@ -1,11 +1,16 @@
 import { QueryClient, QueryClientProvider } from "react-query";
 import "./App.css";
 import { MainView } from "./pages/MainView";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  RouterProvider,
+  createBrowserRouter,
+  useRouteError,
+} from "react-router-dom";
 import { Streamer } from "./pages/Streamer";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "./styles/theme";
 import { NotFound } from "./pages/NotFound";
+import { ErrorBoundary } from "./components/common/ErrorBoundary";
 
 export const queryClient = new QueryClient();
 
@@ -14,9 +19,14 @@ function App() {
     {
       path: "/",
       element: <MainView />,
+      errorElement: <ErrorBoundary />,
     },
-    { path: "/streamer/:streamerId", element: <Streamer /> },
-    { path: "*", element: <NotFound /> },
+    {
+      path: "/streamer/:streamerId",
+      element: <Streamer />,
+      errorElement: <ErrorBoundary />,
+    },
+    { path: "*", element: <NotFound />, errorElement: <ErrorBoundary /> },
   ]);
 
   return (

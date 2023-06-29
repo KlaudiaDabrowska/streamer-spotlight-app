@@ -19,7 +19,10 @@ export const StreamersListItem = ({
           }}
         >
           <CardContent sx={{ flex: "1" }}>
-            <Link to={`/${streamer.id}`} style={{ textDecoration: "none" }}>
+            <Link
+              to={`/streamer/${streamer.id}`}
+              style={{ textDecoration: "none" }}
+            >
               <Typography variant="h5" textAlign="left">
                 {streamer.streamerName}
               </Typography>

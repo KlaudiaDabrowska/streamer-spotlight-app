@@ -12,7 +12,7 @@ import { StreamersService } from './streamers.service';
 import { AddStreamerDto } from './dtos/add-streamer.dto.';
 import { UpdateVoteDto } from './dtos/update-vote.dto';
 import { Observable } from 'rxjs';
-import { StreamerSseService } from './streamers_sse.service';
+import { StreamerSseService, StreamerUpdated } from './streamers_sse.service';
 import { PageOptionsDto } from 'src/shared/dtos/PageMetaDtoParameters';
 
 @Controller('streamers')
@@ -28,7 +28,7 @@ export class StreamersController {
   }
 
   @Sse('sse')
-  sse(): Observable<any> {
+  sse(): Observable<MessageEvent<StreamerUpdated>> {
     return this.sseService.sse();
   }
 

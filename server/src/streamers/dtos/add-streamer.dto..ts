@@ -1,10 +1,4 @@
-import {
-  IsEnum,
-  IsNotEmpty,
-  IsString,
-  Length,
-  MinLength,
-} from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString, Length } from 'class-validator';
 
 export enum Platform {
   Twitch = 'Twitch',
@@ -29,8 +23,9 @@ export class AddStreamerDto {
 
   @IsString()
   @IsNotEmpty()
-  @MinLength(10, {
-    message: 'Description must be at least 10 characters',
+  @Length(10, 200, {
+    message:
+      'Description must be at least 10 characters, and max length must be less than 200 characters',
   })
   description: string;
 }

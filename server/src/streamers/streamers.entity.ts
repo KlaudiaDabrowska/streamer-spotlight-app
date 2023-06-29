@@ -16,6 +16,9 @@ export class Streamer {
   description: string;
 
   @Column()
+  image: string;
+
+  @Column()
   upvotes: number;
 
   @Column()

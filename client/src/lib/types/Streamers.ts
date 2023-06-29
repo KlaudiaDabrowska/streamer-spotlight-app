@@ -16,6 +16,7 @@ export interface IStreamerObject {
   streamerName: string;
   platform: Platform;
   description: string;
+  image: string;
   upvotes: number;
   downvotes: number;
 }
