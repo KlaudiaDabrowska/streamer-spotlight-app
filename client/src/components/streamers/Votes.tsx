@@ -19,10 +19,13 @@ export const Votes = ({ streamer }: { streamer?: IStreamerObject }) => {
       <Stack direction="row" alignItems="center">
         <IconButton
           onClick={() => updateStreamerVoteMutation({ type: VoteTypes.upvote })}
+          data-testid="upvoteBtn"
         >
           <ArrowUpwardIcon sx={{ color: "green" }} fontSize="small" />
         </IconButton>
-        <Typography variant="h6">{streamer?.upvotes}</Typography>
+        <Typography variant="h6" data-testid="upvotes">
+          {streamer?.upvotes}
+        </Typography>
       </Stack>
       <Stack direction="row" alignItems="center">
         <IconButton
@@ -32,7 +35,9 @@ export const Votes = ({ streamer }: { streamer?: IStreamerObject }) => {
         >
           <ArrowDownwardIcon sx={{ color: "red" }} fontSize="small" />
         </IconButton>
-        <Typography variant="h6">{streamer?.downvotes}</Typography>
+        <Typography variant="h6" data-testid="downvotes">
+          {streamer?.downvotes}
+        </Typography>
       </Stack>
     </Stack>
   );

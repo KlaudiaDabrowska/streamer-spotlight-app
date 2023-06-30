@@ -101,9 +101,13 @@ export const StreamerSubmissionForm = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.streamerName}
+              inputProps={{ "data-testid": "streamerNameInput" }}
             />
             {formik.errors.streamerName && formik.touched.streamerName && (
-              <ErrorInfo error={formik.errors.streamerName} />
+              <ErrorInfo
+                error={formik.errors.streamerName}
+                data-testid="validationError"
+              />
             )}
           </Grid>
           <Grid item xs={12}>
@@ -116,6 +120,7 @@ export const StreamerSubmissionForm = () => {
               onBlur={formik.handleBlur}
               value={formik.values.platform}
               sx={{ width: "100%" }}
+              inputProps={{ "data-testid": "platformSelect" }}
             >
               <MenuItem value="Twitch">Twitch</MenuItem>
               <MenuItem value="YouTube">YouTube</MenuItem>
@@ -137,6 +142,7 @@ export const StreamerSubmissionForm = () => {
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               value={formik.values.description}
+              inputProps={{ "data-testid": "streamerDescriptionInput" }}
             />
             {formik.errors.description && formik.touched.description && (
               <ErrorInfo error={formik.errors.description} />
@@ -151,7 +157,12 @@ export const StreamerSubmissionForm = () => {
               alignItems: "center",
             }}
           >
-            <Button type="submit" variant="outlined" color="secondary">
+            <Button
+              type="submit"
+              variant="outlined"
+              color="secondary"
+              data-testid="submitBtn"
+            >
               Submit
             </Button>
           </Grid>

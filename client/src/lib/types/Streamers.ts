@@ -12,7 +12,7 @@ export interface IStreamersResponse {
 }
 
 export interface IStreamerObject {
-  id: number;
+  id: string;
   streamerName: string;
   platform: Platform;
   description: string;

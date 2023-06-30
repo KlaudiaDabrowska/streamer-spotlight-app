@@ -9,7 +9,7 @@ export interface IUpdateVote {
   type: VoteTypes;
 }
 
-export const updateStreamerVote = async (type: IUpdateVote, id?: number) => {
+export const updateStreamerVote = async (type: IUpdateVote, id?: string) => {
   const response = await apiClient.put(`/streamers/${id}/vote`, type);
   return response.data;
 };
