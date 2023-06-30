@@ -26,7 +26,7 @@ export const Streamer = () => {
     data: streamerInfo,
     isLoading,
     isError,
-  } = useQuery("streamerInfo", () => getStreamerById(parseInt(streamerId!)), {
+  } = useQuery("streamerInfo", () => getStreamerById(streamerId!), {
     enabled: streamerId !== "undefined",
   });
 

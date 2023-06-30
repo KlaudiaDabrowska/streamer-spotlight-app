@@ -33,8 +33,8 @@ export const SortBySelect = ({
     { "Upvotes descending": "upvotes DESC" },
     { "Downvotes ascending": "downvotes ASC" },
     { "Downvotes descending": "downvotes DESC" },
-    { "Streamer name ascending": "streamerName ASC" },
-    { "Streamer name descending": "streamerName DESC" },
+    { "Streamer name ascending": "streamer_name ASC" },
+    { "Streamer name descending": "streamer_name DESC" },
   ];
 
   //todo: add multiple sorting

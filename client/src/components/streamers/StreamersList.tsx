@@ -1,16 +1,6 @@
 import { useQuery } from "react-query";
 import { Direction, getAllStreamers } from "../../api/getAllStreamers";
-import {
-  Box,
-  Container,
-  FormControl,
-  Grid,
-  MenuItem,
-  Pagination,
-  Select,
-  SelectChangeEvent,
-  Typography,
-} from "@mui/material";
+import { Container, Grid, Pagination, Typography } from "@mui/material";
 import { StreamersListItem } from "./StreamersListItem";
 import { LoadingState } from "../common/LoadingState";
 import { queryClient } from "../../App";
@@ -39,26 +29,33 @@ export const StreamersList = () => {
 
   useEffect(() => {
     const eventSource = new EventSource(
-      `${process.env.REACT_APP_BASE_API_URL}/streamers/sse`
+      `${process.env.REACT_APP_BASE_API_URL}/streamers/streamer-events`
     );
 
     eventSource.onmessage = ({ data }) => {
       queryClient.setQueryData<IStreamersResponse | undefined>(
         ["streamersList", page, field, direction],
-        (oldData) => {
-          const dataObj: IStreamerObject = JSON.parse(data);
-          if (!oldData) {
-            return oldData;
+        (streamersList) => {
+          const streamer: IStreamerObject = JSON.parse(data);
+
+          if (!streamersList) {
+            return streamersList;
           }
-          const updatedData = oldData.data.map((item) =>
-            item.id === dataObj.id ? dataObj : item
+
+          const updatedData = streamersList.data.map((item) =>
+            item.id === streamer.id ? streamer : item
           );
-          const updatedStreamer = {
+
+          // if (updatedData.some((item) => item.id !== streamer.id)) {
+          //   updatedData.push(streamer);
+          // }
+
+          const updatedStreamers = {
             data: updatedData,
-            meta: oldData.meta,
+            meta: streamersList.meta,
           };
 
-          return updatedStreamer;
+          return updatedStreamers;
         }
       );
     };

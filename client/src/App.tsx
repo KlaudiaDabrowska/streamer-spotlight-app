@@ -1,11 +1,7 @@
 import { QueryClient, QueryClientProvider } from "react-query";
 import "./App.css";
 import { MainView } from "./pages/MainView";
-import {
-  RouterProvider,
-  createBrowserRouter,
-  useRouteError,
-} from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Streamer } from "./pages/Streamer";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "./styles/theme";
