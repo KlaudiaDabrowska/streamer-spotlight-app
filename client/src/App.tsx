@@ -1,7 +1,11 @@
 import { QueryClient, QueryClientProvider } from "react-query";
 import "./App.css";
 import { MainView } from "./pages/MainView";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import {
+  Navigate,
+  RouterProvider,
+  createBrowserRouter,
+} from "react-router-dom";
 import { Streamer } from "./pages/Streamer";
 import { ThemeProvider } from "@mui/material";
 import { theme } from "./styles/theme";
@@ -14,6 +18,10 @@ function App() {
   const router = createBrowserRouter([
     {
       path: "/",
+      element: <Navigate to="/streamers" replace />,
+    },
+    {
+      path: "/streamers",
       element: <MainView />,
       errorElement: <ErrorBoundary />,
     },
