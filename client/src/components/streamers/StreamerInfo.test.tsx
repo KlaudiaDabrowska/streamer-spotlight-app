@@ -1,10 +1,10 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { StreamerInfo } from "./StreamerInfo";
 import { Platform } from "../../lib/types/Platforms";
 import { QueryClient, QueryClientProvider } from "react-query";
 
 describe("Streamer Info", () => {
-  it.skip("should display information about streamer", () => {
+  it("should display information about streamer", () => {
     const queryClient = new QueryClient();
 
     const mockedStreamer = {
@@ -44,31 +44,32 @@ describe("Streamer Info", () => {
       mockedStreamer.downvotes.toString()
     );
   });
-  //   it.only("should add upvote", () => {
-  //     const queryClient = new QueryClient();
 
-  //     const mockedStreamer = {
-  //       id: "3593af78-a0b0-4b78-bfda-a367f3ae7638",
-  //       streamerName: "Streamer 1",
-  //       platform: Platform.TikTok,
-  //       description: "This streamer is awesome",
-  //       image:
-  //         "https://static-cdn.jtvnw.net/jtv_user_pictures/asmongold-profile_image-f7ddcbd0332f5d28-300x300.png",
-  //       upvotes: 10,
-  //       downvotes: 0,
-  //     };
+  // it("should add upvote", () => {
+  //   const queryClient = new QueryClient();
 
-  //     render(
-  //       <QueryClientProvider client={queryClient}>
-  //         <StreamerInfo streamer={mockedStreamer} />
-  //       </QueryClientProvider>
-  //     );
+  //   const mockedStreamer = {
+  //     id: "3593af78-a0b0-4b78-bfda-a367f3ae7638",
+  //     streamerName: "Streamer 1",
+  //     platform: Platform.TikTok,
+  //     description: "This streamer is awesome",
+  //     image:
+  //       "https://static-cdn.jtvnw.net/jtv_user_pictures/asmongold-profile_image-f7ddcbd0332f5d28-300x300.png",
+  //     upvotes: 10,
+  //     downvotes: 0,
+  //   };
 
-  //     fireEvent.click(screen.getByTestId("upvoteBtn"));
+  //   render(
+  //     <QueryClientProvider client={queryClient}>
+  //       <StreamerInfo streamer={mockedStreamer} />
+  //     </QueryClientProvider>
+  //   );
 
-  //     const upvoteAfterVote = mockedStreamer.upvotes + 1;
-  //     expect(screen.getByTestId("upvotes")).toHaveTextContent(
-  //       upvoteAfterVote.toString()
-  //     );
-  //   });
+  //   fireEvent.click(screen.getByTestId("upvoteBtn"));
+
+  //   const upvoteAfterVote = mockedStreamer.upvotes + 1;
+  //   expect(screen.getByTestId("upvotes")).toHaveTextContent(
+  //     upvoteAfterVote.toString()
+  //   );
+  // });
 });
