@@ -1,19 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { VoteTypes } from './dtos/update-vote.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Streamer } from './streamers.entity';
-import { Repository } from 'typeorm';
+import { QueryFailedError, Repository } from 'typeorm';
 import { Platform } from './dtos/add-streamer.dto.';
 import { StreamerEventsService } from './streamers_events.service';
-import { PageOptionsDto } from 'src/shared/dtos/PageMetaDtoParameters';
-import { PageDto, PageMetaDto } from 'src/shared/dtos/PageDto';
+import { PageOptionsDto } from '../shared/dtos/PageMetaDtoParameters';
+import { PageMetaDto, PageDto } from '../shared/dtos/PageDto';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class StreamersService {
   constructor(
     @InjectRepository(Streamer) private repo: Repository<Streamer>,
-    private streamerSseService: StreamerEventsService,
+    private streamerEventsService: StreamerEventsService,
   ) {}
 
   getAll(pageOptions: PageOptionsDto) {
@@ -39,21 +39,32 @@ export class StreamersService {
     return this.repo.findOneBy({ id });
   }
 
-  async add(streamerName: string, platform: Platform, description: string) {
-    const newStreamer = this.repo.create({
-      id: uuidv4(),
-      streamerName,
-      platform,
-      description,
-      image:
-        'https://static-cdn.jtvnw.net/jtv_user_pictures/asmongold-profile_image-f7ddcbd0332f5d28-300x300.png',
-      upvotes: 0,
-      downvotes: 0,
-    });
-
-    const savedStreamer = await this.repo.save(newStreamer);
-    this.streamerSseService.pushEvent(savedStreamer);
-    return savedStreamer;
+  async add(
+    streamerName: string,
+    platform: Platform,
+    description: string,
+    imageUrl: string,
+  ) {
+    try {
+      const savedStreamer = await this.repo.save({
+        id: uuidv4(),
+        streamerName,
+        platform,
+        description,
+        image: imageUrl,
+        upvotes: 0,
+        downvotes: 0,
+      });
+      this.streamerEventsService.pushEvent(savedStreamer);
+      return savedStreamer;
+    } catch (err) {
+      //@ts-expect-error the code is not declared in types and because of conditional chaining the code should be safe
+      //PSQL error codes: https://www.postgresql.org/docs/10/errcodes-appendix.html
+      if (err instanceof QueryFailedError && err?.code === '23505') {
+        throw new BadRequestException('Given streamer already exists');
+      }
+      throw err;
+    }
   }
 
   async updateVote(id: string, type: VoteTypes) {
@@ -67,6 +78,6 @@ export class StreamersService {
     //typeorm does not support custom queries in save function so instead of implementing
     //optimistic / pessimistic locking I decided to fetch the record after updating
     const updated = await this.repo.findOneBy({ id: id });
-    this.streamerSseService.pushEvent(updated);
+    this.streamerEventsService.pushEvent(updated);
   }
 }
