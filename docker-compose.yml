@@ -1,0 +1,54 @@
+version: "3.4"
+
+services:
+  streamer-spotlight-server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    depends_on:
+      - streamer-spotlight-db
+    environment:
+      - DATABASE_HOST=streamer-spotlight-db
+      - DATABASE_PORT=5432
+      - DATABASE_USERNAME=streamer-spotlight
+      - DATABASE_PASSWORD=secret-password
+      - DATABASE_NAME=streamer-spotlight-db
+    networks:
+      streamer-spotlight:
+        aliases:
+          - streamer-spotlight-server
+
+  streamer-spotlight-client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    depends_on:
+      - streamer-spotlight-db
+    networks:
+      streamer-spotlight:
+        aliases:
+          - streamer-spotlight-client
+
+  streamer-spotlight-db:
+    image: postgres:15.3
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=streamer-spotlight-db
+      - POSTGRES_PASSWORD=secret-password
+      - POSTGRES_USER=streamer-spotlight
+    networks:
+      streamer-spotlight:
+        aliases:
+          - streamer-spotlight-db
+
+networks:
+  streamer-spotlight:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 10.9.0.0/16
