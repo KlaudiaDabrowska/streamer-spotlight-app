@@ -12,7 +12,7 @@ export const toSortBy = (value: string) => {
   });
 };
 
-class SortBy {
+export class SortBy {
   field: string;
   direction: 'ASC' | 'DESC';
 

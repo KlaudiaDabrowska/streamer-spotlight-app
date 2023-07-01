@@ -35,27 +35,31 @@ export const StreamersList = () => {
     eventSource.onmessage = ({ data }) => {
       queryClient.setQueryData<IStreamersResponse | undefined>(
         ["streamersList", page, field, direction],
-        (streamersList) => {
-          const streamer: IStreamerObject = JSON.parse(data);
+        (streamersResponse) => {
+          const streamerUpdatedEvent: IStreamerObject = JSON.parse(data);
 
-          if (!streamersList) {
-            return streamersList;
+          if (!streamersResponse) {
+            return streamersResponse;
           }
 
-          const updatedData = streamersList.data.map((item) =>
-            item.id === streamer.id ? streamer : item
+          const isNewStreamer = !streamersResponse.data.some(
+            (streamer) => streamer.id === streamerUpdatedEvent.id
           );
 
-          // if (updatedData.some((item) => item.id !== streamer.id)) {
-          //   updatedData.push(streamer);
-          // }
+          const updatedData = streamersResponse.data.map((item) =>
+            item.id === streamerUpdatedEvent.id ? streamerUpdatedEvent : item
+          );
 
-          const updatedStreamers = {
+          if (isNewStreamer) {
+            updatedData.unshift(streamerUpdatedEvent);
+          }
+
+          const updatedResponse = {
             data: updatedData,
-            meta: streamersList.meta,
+            meta: streamersResponse.meta,
           };
 
-          return updatedStreamers;
+          return updatedResponse;
         }
       );
     };

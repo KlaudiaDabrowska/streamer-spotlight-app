@@ -5,7 +5,7 @@ export class CreateStreamerTable1688067330612 implements MigrationInterface {
     await queryRunner.query(`
                     CREATE TABLE IF NOT EXISTS streamer (
                         id UUID NOT NULL PRIMARY KEY,
-                        streamer_name TEXT NOT NULL,
+                        streamer_name TEXT NOT NULL UNIQUE,
                         platform TEXT NOT NULL,
                         description TEXT NOT NULL,
                         image TEXT NOT NULL,
