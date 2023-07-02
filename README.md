@@ -42,21 +42,3 @@ Both client and server tests can be executed independently within their respecti
 ### Continuous Integration with GitHub Actions
 
 The Streamer Spotlight Application is integrated with GitHub Actions for automated testing. Each time a commit is pushed to the main branch or pull requests are created, the tests are automatically triggered. The GitHub Actions workflow configuration can be found in the repository's .github/workflows directory.
-
-## Project Structure
-
-The Streamer Spotlight Project has the following directory structure:
-
-.
-├── .github
-│ ├── workflows
-│ ├── client.yml
-│ └── server.yml
-├── client
-│ ├── Dockerfile
-│ └── ...
-├── server
-│ ├── Dockerfile
-│ └── ...
-├── docker-compose.yml
-└── README.md
