@@ -16,7 +16,7 @@ import {
   StreamerEventsService,
   StreamerUpdated,
 } from './streamers_events.service';
-import { PageOptionsDto } from 'src/shared/dtos/PageMetaDtoParameters';
+import { PageOptionsDto } from '../shared/dtos/PageMetaDtoParameters';
 
 @Controller('/streamers')
 export class StreamersController {
