@@ -6,7 +6,7 @@ export class Streamer {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column()
+  @Column({ name: 'streamer_name' })
   streamerName: string;
 
   @Column()
