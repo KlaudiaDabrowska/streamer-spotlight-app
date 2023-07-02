@@ -1,12 +1,12 @@
 import { IsEnum, IsNotEmpty } from 'class-validator';
 
-export enum VoteTypes {
+export enum VoteType {
   upvote = 'upvote',
   downvote = 'downvote',
 }
 
 export class UpdateVoteDto {
-  @IsEnum(VoteTypes)
+  @IsEnum(VoteType)
   @IsNotEmpty()
-  type: VoteTypes;
+  type: VoteType;
 }

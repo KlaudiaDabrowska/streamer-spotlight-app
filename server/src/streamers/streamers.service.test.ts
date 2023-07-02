@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { copyOmmiting } from '../shared/copyObjectOmmiting';
 import { firstValueFrom } from 'rxjs';
 import { BadRequestException } from '@nestjs/common';
-import { VoteTypes } from './dtos/update-vote.dto';
+import { VoteType } from './dtos/update-vote.dto';
 import { SortBy } from '../shared/dtos/PageMetaDtoParameters';
 
 describe('StreamersService', () => {
@@ -143,7 +143,7 @@ describe('StreamersService', () => {
       .spyOn(streamersRepository, 'findOneBy')
       .mockResolvedValue(streamer);
 
-    await streamersService.updateVote(id, VoteTypes.upvote);
+    await streamersService.updateVote(id, VoteType.upvote);
 
     const updateArguments = repositoryUpdateMock.mock.calls[0];
     expect(updateArguments[0]).toEqual(id);
@@ -184,7 +184,7 @@ describe('StreamersService', () => {
       .spyOn(streamersRepository, 'findOneBy')
       .mockResolvedValue(streamer);
 
-    await streamersService.updateVote(id, VoteTypes.downvote);
+    await streamersService.updateVote(id, VoteType.downvote);
 
     const updateArguments = repositoryUpdateMock.mock.calls[0];
     expect(updateArguments[0]).toEqual(id);

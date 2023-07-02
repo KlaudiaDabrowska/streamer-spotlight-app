@@ -10,19 +10,15 @@ import {
 } from 'typeorm';
 import { Streamer } from './streamers.entity';
 import { TypeOrmModule, getRepositoryToken } from '@nestjs/typeorm';
-import { v4 as uuidv4 } from 'uuid';
 import { AddStreamerDto, Platform } from './dtos/add-streamer.dto.';
 import * as request from 'supertest';
 import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { StreamersController } from './streamers.controller';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
-import { copyOmmiting } from 'src/shared/copyObjectOmmiting';
-import { SortBy } from '../shared/dtos/PageMetaDtoParameters';
-import { VoteTypes } from './dtos/update-vote.dto';
+import { VoteType } from './dtos/update-vote.dto';
 import { firstValueFrom } from 'rxjs';
 
 describe('Streamers controller', () => {
-  let streamersRepository: Repository<Streamer>;
   let pgContainer;
   let app: INestApplication;
   let queryRunner: QueryRunner;
@@ -67,9 +63,6 @@ describe('Streamers controller', () => {
       providers: [StreamersService, StreamerEventsService],
     }).compile();
 
-    streamersRepository = testingModule.get<Repository<Streamer>>(
-      getRepositoryToken(Streamer),
-    );
     streamerController =
       testingModule.get<StreamersController>(StreamersController);
 
@@ -127,7 +120,7 @@ describe('Streamers controller', () => {
 
     await request(app.getHttpServer())
       .put(`/streamers/${addedStreamer.id}/vote`)
-      .send({ id: addedStreamer.id, type: VoteTypes.upvote })
+      .send({ id: addedStreamer.id, type: VoteType.upvote })
       .expect(200);
 
     const getStreamerById = await request(app.getHttpServer())
@@ -144,7 +137,7 @@ describe('Streamers controller', () => {
 
     await request(app.getHttpServer())
       .put(`/streamers/${addedStreamer.id}/vote`)
-      .send({ id: addedStreamer.id, type: VoteTypes.downvote })
+      .send({ id: addedStreamer.id, type: VoteType.downvote })
       .expect(200);
 
     const getStreamerById = await request(app.getHttpServer())
@@ -192,7 +185,7 @@ describe('Streamers controller', () => {
 
     await request(app.getHttpServer())
       .put(`/streamers/${addedStreamer.id}/vote`)
-      .send({ id: addedStreamer.id, type: VoteTypes.upvote })
+      .send({ id: addedStreamer.id, type: VoteType.upvote })
       .expect(200);
 
     await expect(streamerUpdatedEvent).resolves.toMatchObject({
@@ -209,7 +202,7 @@ describe('Streamers controller', () => {
 
     await request(app.getHttpServer())
       .put(`/streamers/${addedStreamer.id}/vote`)
-      .send({ id: addedStreamer.id, type: VoteTypes.downvote })
+      .send({ id: addedStreamer.id, type: VoteType.downvote })
       .expect(200);
 
     await expect(streamerUpdatedEvent).resolves.toMatchObject({

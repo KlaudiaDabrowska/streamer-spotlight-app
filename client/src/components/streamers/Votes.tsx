@@ -5,7 +5,7 @@ import { IStreamerObject } from "../../lib/types/Streamers";
 import { useMutation } from "react-query";
 import {
   IUpdateVote,
-  VoteTypes,
+  VoteType,
   updateStreamerVote,
 } from "../../api/updateStreamerVote";
 
@@ -18,7 +18,7 @@ export const Votes = ({ streamer }: { streamer?: IStreamerObject }) => {
     <Stack flexDirection="row" justifyContent="center" gap={2}>
       <Stack direction="row" alignItems="center">
         <IconButton
-          onClick={() => updateStreamerVoteMutation({ type: VoteTypes.upvote })}
+          onClick={() => updateStreamerVoteMutation({ type: VoteType.upvote })}
           data-testid="upvoteBtn"
         >
           <ArrowUpwardIcon sx={{ color: "green" }} fontSize="small" />
@@ -30,7 +30,7 @@ export const Votes = ({ streamer }: { streamer?: IStreamerObject }) => {
       <Stack direction="row" alignItems="center">
         <IconButton
           onClick={() =>
-            updateStreamerVoteMutation({ type: VoteTypes.downvote })
+            updateStreamerVoteMutation({ type: VoteType.downvote })
           }
           data-testid="downvoteBtn"
         >

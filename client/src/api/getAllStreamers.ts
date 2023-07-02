@@ -8,11 +8,11 @@ export enum Direction {
 
 export const getAllStreamers = async (
   page: number,
-  field: string,
-  direction: Direction
+  sortField: string,
+  sortDirection: Direction
 ) => {
   const response = await apiClient.get<IStreamersResponse>(
-    `/streamers?itemsPerPage=10&page=${page}&sortBy=${field}:${direction}`
+    `/streamers?itemsPerPage=10&page=${page}&sortBy=${sortField}:${sortDirection}`
   );
   return response.data;
 };

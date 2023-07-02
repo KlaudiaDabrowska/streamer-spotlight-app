@@ -1,5 +1,5 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import { VoteTypes } from './dtos/update-vote.dto';
+import { VoteType } from './dtos/update-vote.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Streamer } from './streamers.entity';
 import { QueryFailedError, Repository } from 'typeorm';
@@ -58,7 +58,7 @@ export class StreamersService {
       this.streamerEventsService.pushEvent(savedStreamer);
       return savedStreamer;
     } catch (err) {
-      //@ts-expect-error the code is not declared in types and because of conditional chaining the code should be safe
+      //@ts-expect-error the code is not declared in types but because of conditional chaining the code should be safe
       //PSQL error codes: https://www.postgresql.org/docs/10/errcodes-appendix.html
       if (err instanceof QueryFailedError && err?.code === '23505') {
         throw new BadRequestException('Given streamer already exists');
@@ -67,10 +67,10 @@ export class StreamersService {
     }
   }
 
-  async updateVote(id: string, type: VoteTypes) {
-    if (type === VoteTypes.upvote) {
+  async updateVote(id: string, type: VoteType) {
+    if (type === VoteType.upvote) {
       await this.repo.update(id, { upvotes: () => `upvotes + 1` });
-    } else if (type === VoteTypes.downvote) {
+    } else if (type === VoteType.downvote) {
       await this.repo.update(id, { downvotes: () => `downvotes + 1` });
     } else {
       throw new Error('Unsupported operation');

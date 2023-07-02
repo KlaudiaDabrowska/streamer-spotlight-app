@@ -1,9 +1,5 @@
-import { Repository } from 'typeorm';
-import { StreamersService } from './streamers.service';
-import { Streamer } from './streamers.entity';
 import { StreamerEventsService } from './streamers_events.service';
 import { Test } from '@nestjs/testing';
-import { getRepositoryToken } from '@nestjs/typeorm';
 import { Platform } from './dtos/add-streamer.dto.';
 import { v4 as uuidv4 } from 'uuid';
 import { firstValueFrom } from 'rxjs';

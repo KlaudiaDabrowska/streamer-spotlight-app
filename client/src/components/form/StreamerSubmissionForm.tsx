@@ -59,6 +59,7 @@ export const StreamerSubmissionForm = () => {
         .required("This field is required"),
       description: Yup.string()
         .min(10, "Must be at least 10 characters")
+        .max(200, "Must be less than 200 characters")
         .required("This field is required"),
     }),
     onSubmit: (values) => {

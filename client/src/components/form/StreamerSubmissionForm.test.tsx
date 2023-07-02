@@ -80,7 +80,7 @@ describe("Streamer submission form ", () => {
     fireEvent.change(streamerNameInput, { target: { value: "Streamer nr.1" } });
     fireEvent.change(platformSelect, { target: { value: "Kick" } });
     fireEvent.change(streamerDescriptionInput, {
-      target: { value: "This streamer is super duper cool" },
+      target: { value: "This streamer is super cool" },
     });
     fireEvent.submit(submitBtn);
     const successAlert = await screen.findByText(

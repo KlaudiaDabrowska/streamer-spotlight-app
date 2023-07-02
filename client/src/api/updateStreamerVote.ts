@@ -1,12 +1,12 @@
 import { apiClient } from "../config/apiConfig";
 
-export enum VoteTypes {
+export enum VoteType {
   upvote = "upvote",
   downvote = "downvote",
 }
 
 export interface IUpdateVote {
-  type: VoteTypes;
+  type: VoteType;
 }
 
 export const updateStreamerVote = async (type: IUpdateVote, id?: string) => {
