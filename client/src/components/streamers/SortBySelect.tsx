@@ -26,6 +26,7 @@ export const SortBySelect = ({
   setField,
 }: ISortBySelectParams) => {
   const [selectedOption, setSelectedOption] = useState("");
+  // eslint-disable-next-line
   const [searchParams, setSearchParams] = useSearchParams();
 
   const sortingArray: SortingObject[] = [

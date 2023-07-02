@@ -17,21 +17,28 @@ export const StreamerInfo = ({ streamer }: { streamer?: IStreamerObject }) => {
     <Container>
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography variant="h5">{streamer?.streamerName}</Typography>
-          <Typography variant="subtitle2">{streamer?.platform}</Typography>
+          <Typography variant="h5" data-testid="streamerName">
+            {streamer?.streamerName}
+          </Typography>
+          <Typography variant="subtitle2" data-testid="platform">
+            {streamer?.platform}
+          </Typography>
         </Grid>
         <Grid item xs={12}>
           <img
             src={streamer?.image}
             alt="streamer"
             style={{ width: isSmallScreen ? 250 : "auto" }}
+            data-testid="image"
           />
         </Grid>
         <Grid item xs={12}>
           <Votes streamer={streamer} />
         </Grid>
         <Grid item xs={12}>
-          <Typography variant="h5">{streamer?.description}</Typography>
+          <Typography variant="h5" data-testid="description">
+            {streamer?.description}
+          </Typography>
         </Grid>
       </Grid>
     </Container>
