@@ -2,7 +2,6 @@ import {
   Button,
   Container,
   Grid,
-  InputLabel,
   MenuItem,
   Select,
   SelectChangeEvent,
